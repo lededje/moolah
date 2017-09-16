@@ -7,21 +7,53 @@ describe('Moolah', () => {
     it('returns a new moolah instance', () => {
       expect(new Moolah()).to.be.instanceOf(Moolah);
     });
-    it('sets the value if so passed into the constructor', () => {
+    it('sets the value if passed into the constructor', () => {
       const startingValue = 100;
       const moolah = new Moolah(startingValue);
-      expect(moolah.value()).to.be(startingValue);
+      expect(moolah.get()).to.equal(startingValue.toString());
     });
   });
 
-  describe('Getters and setters', () => {
-    it('should value to be set and got', () => {
-      const value = 100;
-      const moolah = new Moolah();
-      moolah.set(value);
-      expect(moolah.value()).to.be(startingValue);
-      expect(moolah.get()).to.be(startingValue);
-      expect(moolah.valueOf()).to.be(startingValue);
+  describe('Getters', () => {
+    it('gets the major value', () => {
+      const tests = {
+        '123.456': '123',
+        '123': '123',
+        '0.123': '0',
+      };
+      Object.keys(tests).forEach((test) => {
+        const result = tests[test];
+        expect(new Moolah(test).get('major')).to.equal(result);
+      });
+    });
+    it('gets the minor value', () => {
+      const tests = {
+        '123.456': '0.456',
+        '123': '0',
+        '0.123': '0.123',
+      };
+      Object.keys(tests).forEach((test) => {
+        const result = tests[test];
+        expect(new Moolah(test).get('minor')).to.equal(result);
+      });
+    });
+    it('gets the entire value', () => {
+      const tests = {
+        '123.456': '123.456',
+        '123': '123',
+        '0.123': '0.123',
+      };
+      Object.keys(tests).forEach((test) => {
+        const result = tests[test];
+        expect(new Moolah(test).get()).to.equal(result);
+      });
+    });
+  });
+
+  describe('Setters', () => {
+    it('Sets the entire value', () => {
+      // this will return a string representation of the float passed in unformatted.
+      expect(new Moolah().set('10.10').get()).to.equal('10.1');
     });
   });
 
