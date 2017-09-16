@@ -198,25 +198,33 @@ describe('Moolah', () => {
     it('should be able to add two amounts together', () => {
       const tests = [
         [0.1, 0.2, '0.3'], // Floating point errors in vanilla js
-        [10.10, 20.20, '30.30'],
-        [10.10, new Moolah(20.20), '30.30'], // Moolah instance
+        [10.10, 20.20, '30.3'],
+        [10.10, new Moolah(20.20), '30.3'], // Moolah instance
       ];
 
       tests.forEach(([a, b, result]) => {
-        expect(new Moolah(a).plus(b)).to.equal(result);
+        expect(new Moolah(a).plus(b).get()).to.equal(result);
       });
+
+      // Alias
+      const moolah = new Moolah();
+      expect(moolah.plus).to.equal(moolah.add);
     });
 
     it('should be able to add two amounts together', () => {
       const tests = [
         [0.2, 0.1, '0.1'], // Floating point errors in vanilla js
-        [20.20, 10.10, '10.10'],
-        [20.20, new Moolah(10.10), '10.10'],
+        [20.20, 10.10, '10.1'],
+        [20.20, new Moolah(10.10), '10.1'],
       ];
 
       tests.forEach(([a, b, result]) => {
-        expect(new Moolah(a).minus(b)).to.equal(result);
+        expect(new Moolah(a).minus(b).get()).to.equal(result);
       });
+
+      // Alias
+      const moolah = new Moolah();
+      expect(moolah.subtract).to.equal(moolah.minus);
     });
 
     it('should be able to multiply two amounts together', () => {
@@ -226,18 +234,18 @@ describe('Moolah', () => {
       ];
 
       tests.forEach(([a, b, result]) => {
-        expect(new Moolah(a).times(b)).to.equal(result);
+        expect(new Moolah(a).times(b).get()).to.equal(result);
       });
     });
 
     it('should be able to divide two amounts together', () => {
       const tests = [
         ['6743', 100, '67.43'], // Floating point errors in vanilla js
-        [300, new Moolah(10), '300'],
+        [300, new Moolah(10), '30'],
       ];
 
       tests.forEach(([a, b, result]) => {
-        expect(new Moolah(a).times(b)).to.equal(result);
+        expect(new Moolah(a).divide(b).get()).to.equal(result);
       });
     });
   });
