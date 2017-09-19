@@ -61,22 +61,14 @@ describe('Moolah', () => {
     it('should format major amounts correctly', () => {
       const amount = 1234.456;
       const tests = {
-        'M': 1234,
-        'MMM': 1234,
+        'M': '1234',
+        'MMM': '1234',
         'M,MMM': '1,234',
-        // Groups of three
-        ',M': '1,234', // Defaults to three
-        'MMM,M': '1,234',
-        // Groups on one
-        'M,M': '1,2,3,4',
-        // Groups of two
-        'MM,M': '12,34',
-        // Groups larger than the value being rendered
-        'MMMMM,M': '1234',
+        '': '',
       };
       Object.keys(tests).forEach((test) => {
         const result = tests[test];
-        expect(new Moolah(amount).format(test)).to.be(result);
+        expect(new Moolah(amount).format(test)).to.equal(result);
       });
     });
 
@@ -89,10 +81,11 @@ describe('Moolah', () => {
           'mm': '45',
           'mmm': '450',
           'mmmm': '4500',
+          '': '',
         };
         Object.keys(tests).forEach((test) => {
           const result = tests[test];
-          expect(new Moolah(amount).format(test)).to.be(result);
+          expect(new Moolah(amount).format(test)).to.equal(result);
         });
       });
 
@@ -108,12 +101,18 @@ describe('Moolah', () => {
         };
         Object.keys(tests).forEach((test) => {
           const result = tests[test];
-          expect(new Moolah(amount).format(test)).to.be(result);
+          expect(new Moolah(amount).format(test)).to.equal(result);
         });
       });
 
       it('should allow all significant figures to be displayed with an *', () => {
-        expect(new Moolah(0.123411231).format('m*')).to.be('123411231');
+        const tests = [
+          [123.123411231, 'm*', '123411231'], // Spread all significant figures
+          [123.1, 'mm?m*', '10'], // Always require two significant figures and spread the rest
+        ];
+        tests.forEach(([test, format, expected]) => {
+          expect(new Moolah(test).format(format)).to.equal(expected);
+        });
       });
 
       // Force a number of segnificant figures to always be shown with optional
@@ -127,34 +126,34 @@ describe('Moolah', () => {
         };
         Object.keys(tests).forEach((test) => {
           const result = tests[test];
-          expect(new Moolah(amount).format(test)).to.be(result);
+          expect(new Moolah(amount).format(test)).to.equal(result);
         });
       });
     });
 
     it('should pass a combination of formatting tests', () => {
       const tests = [
-        [1234, '$,M.?mm', '$1,234'],
-        [1234, '$,M.mm', '$1,234.00'],
-        [1234, '.M,mm', '1.234,00'],
+        [1234, '$M,MMM.?mm', '$1,234'],
+        [1234, '$M,MMM.mm', '$1,234.00'],
+        [1234, 'M.MMM,mm', '1.234,00'],
       ];
       tests.forEach(([test, format, expected]) => {
-        expect(new Moolah(test).format(format)).to.be(expected);
+        expect(new Moolah(test).format(format)).to.equal(expected);
       });
     });
 
     it('should allow periods and commas to be used as major, minor seperators, as well as thousand-like spacers', () => {
       const amount = 1234.567;
       const tests = {
-        'M.m': '1234.5',
-        'M.m': '1234,5',
-        '.M,m': '1.234,5',
-        '.M.m': '1.234.5',
-        ',M,m': '1,234,5',
+        'M.m': '1234.6',
+        'M,m': '1234,6',
+        'M.MMM,m': '1.234,6',
+        'M.MMM.m': '1.234.6',
+        'M,MMM,m': '1,234,6',
       };
       Object.keys(tests).forEach((test) => {
         const result = tests[test];
-        expect(new Moolah(amount).format(test)).to.be(result);
+        expect(new Moolah(amount).format(test)).to.equal(result);
       });
     });
   });
