@@ -161,15 +161,13 @@ describe('Moolah', () => {
   describe('Parsing', () => {
     it('should be able to parse string values', () => {
       const happyUseCases = {
-        123: 123, // number in, number out
-        'USD$12,321.22': 12321.22, //Commas and currency
-        '42312,22 zł': 42312.22, // Suffixed currency with comma deliminator
-        'Ƀ76.13665948': 76.13665948, // A larger number of significant figures
-        'AUS$12': 12, // No minor value
-        '12.321,21€': 1232121, // inverted separators
-        '-12.12': -12.12, // Negative numbers
-        '-$31.12': -31.12, // Negative numbers before currency symbols
-        '$-31.12': -31.12, // Negative numbers after currency symbols
+        '123': '123', // Number in, number out
+        '12,321.22': '12321.22', // Commas
+        '42312,22': '42312.22', // Comma deliminator
+        '76.13665948': '76.13665948', // A larger number of significant figures
+        '12': '12', // No minor value
+        '12.321,21': '12321.21', // inverted separators
+        '-12.12': '-12.12', // Negative numbers
       };
       const unhappyUseCases = [
         'There is no number', // Non numeric values
