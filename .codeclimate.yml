@@ -1,0 +1,18 @@
+---
+engines:
+  duplication:
+    enabled: false
+  eslint:
+    enabled: true
+    channel: stable
+    config:
+      config: .eslintrc
+    checks:
+      import/no-unresolved:
+        enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "app/**/*.js"
+exclude_paths: []
