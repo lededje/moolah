@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha index.test.js --reporter list"
+    "test": "mocha --reporter list",
+    "build": "webpack",
+    "prepublishOnly": "npm run build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^3.5.3"
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.6.0"
   },
   "dependencies": {
     "big.js": "^3.2.0"

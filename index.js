@@ -15,6 +15,7 @@ class Moolah {
       value = Big(val)
       return this;
     };
+
     this.get = (type) => {
       switch(type) {
         case 'minor': return value.mod(1).toString();

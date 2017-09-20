@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Moolah = require('./');
+const Moolah = require('../');
 
 describe('Moolah', () => {
 
