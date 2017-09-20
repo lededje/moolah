@@ -158,7 +158,7 @@ describe('Moolah', () => {
     });
   });
 
-  describe('Parsing', () => {
+  describe.skip('Parsing', () => {
     it('should be able to parse string values', () => {
       const happyUseCases = {
         '123': '123', // Number in, number out
